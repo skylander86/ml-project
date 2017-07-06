@@ -27,7 +27,7 @@ class BaseFeaturizer(Pipeline):
         self.n_jobs = n_jobs
     #end def
 
-    def fit(self, X):
+    def fit(self, X, *args, **kwargs):
         self.uuid_ = str(uuid4())
         logger.debug('{} UUID is {}.'.format(type(self).__name__, self.uuid_))
 
