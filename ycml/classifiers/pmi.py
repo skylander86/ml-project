@@ -27,7 +27,15 @@ class PMIFeatureSelector(MultiLabelsClassifier):
                 pmi_XY[i, j] = log_Nxy - log_Nx[i] - log_Ny[j]
             #end for
         #end for
-        print(np.max(pmi_XY, axis=1))
+
+        if self.algorithm == 'npmi':
+            log_N = np.log(X_featurized.shape[0])
+            for i in range(X_featurized.shape[1]):
+                pmi_XY[i, :] /= log_Nx[i] - log_N
+
+            assert (pmi_XY >= -1.0).all()
+            assert (pmi_XY <= 1.0).all()
+        #end if
 
         self.pmi_ = pmi_XY
         self.scores_ = np.max(pmi_XY, axis=1)
